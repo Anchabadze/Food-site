@@ -59,10 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'minutes': minutes,
             'seconds': seconds
         };
-
     }
 
-    // функция, которая будет заниматься обновлением таймера
+  
 
 
 

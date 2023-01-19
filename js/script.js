@@ -97,21 +97,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
      // Modal
 
-     const modalTrigger = document.querySelector('[data-modal]'),
+     const modalTrigger = document.querySelectorAll('[data-modal]'),
             modal = document.querySelector('.modal'),
             modalCloseBtn = document.querySelector('[data-close]');
 
-    modalTrigger.addEventListener('click', () => {
-        modal.classList.toggle('show');
-        document.body.style.overflow = 'hidden';
+    modalTrigger.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modal.classList.toggle('show');
+            document.body.style.overflow = 'hidden';
+        });
     });
 
-    modalCloseBtn.addEventListener('click', () => {
+    function closeModal() {
         modal.classList.toggle('show');
         document.body.style.overflow = '';
+    }
+
+    modalCloseBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
     });
 
-
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Escape' && modal.classList.contains('show')) {
+           closeModal();
+        }
+    });
 
 
 });

@@ -97,7 +97,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
      // Modal
 
-     
+     const modalTrigger = document.querySelector('[data-modal]'),
+            modal = document.querySelector('.modal'),
+            modalCloseBtn = document.querySelector('[data-close]');
+
+    modalTrigger.addEventListener('click', () => {
+        modal.classList.toggle('show');
+        document.body.style.overflow = 'hidden';
+    });
+
+    modalCloseBtn.addEventListener('click', () => {
+        modal.classList.toggle('show');
+        document.body.style.overflow = '';
+    });
+
 
 
 

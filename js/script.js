@@ -97,15 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
      // Modal
 
-     const modalTrigger = document.querySelectorAll('[data-modal]'),
+    const modalTrigger = document.querySelectorAll('[data-modal]'),
             modal = document.querySelector('.modal'),
             modalCloseBtn = document.querySelector('[data-close]');
 
+    function openModal () {
+        modal.classList.toggle('show');
+        document.body.style.overflow = 'hidden';
+        clearInterval(modalTimerId);
+    }
+    
     modalTrigger.forEach(btn => {
-        btn.addEventListener('click', () => {
-            modal.classList.toggle('show');
-            document.body.style.overflow = 'hidden';
-        });
+        btn.addEventListener('click', openModal);
     });
 
     function closeModal() {
@@ -126,6 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
            closeModal();
         }
     });
+
+    const modalTimerId = setTimeout(openModal, 10000);
 
 
 });

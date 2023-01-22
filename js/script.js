@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setClock('.timer', deadline);
 
-     // Modal
+    // Modal
 
     const modalTrigger = document.querySelectorAll('[data-modal]'),
             modal = document.querySelector('.modal'),
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const modalTimerId = setTimeout(openModal, 10000);
+    // const modalTimerId = setTimeout(openModal, 10000);
 
     function showModalByScroll() {
         if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -140,6 +140,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('scroll', showModalByScroll);
+
+    // Classes for cards
+
+    class MenuCard { 
+        constructor(src, alt, title, descr, price, parentSelector) { 
+            this.src = src;
+            this.alt = alt;
+            this.title = title;
+            this.descr = descr;
+            this.price = price;
+            this.parent = document.querySelector(parentSelector); 
+            this.transfer = 70; 
+            this.changeToRUB();
+        }
+
+        changeToRUB() { 
+            this.price = this.price * this.transfer;
+        }
+
+        render() { 
+            const element = document.createElement('div'); 
+            element.innerHTML = ` помещаем эту структуру в определённый div, который мы создали выше 
+                <div class="menu__item">
+                    <img src=${this.src} alt=${this.alt}>
+                    <h3 class="menu__item-subtitle">${this.title}</h3>
+                    <div class="menu__item-descr">${this.descr}</div>
+                    <div class="menu__item-divider"></div>
+                    <div class="menu__item-price">
+                        <div class="menu__item-cost">Цена:</div>
+                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                    </div>
+                </div>
+            `;
+            
+            this.parent.append(element); 
+
+        }
+    }
+
 
 
 });

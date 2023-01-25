@@ -245,11 +245,19 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const formData = new FormData(form); 
 
+            const object = {}; 
+            formData.forEach(function(value, key) { 
+                object[key] = value;
+            });
+
             fetch('server.php', { 
-                method: 'POST',
-                body: formData
+                method: 'POST', 
+                headers: { 
+                    'Content-type': 'multipart/form-data'
+                },
+                body: JSON.stringify(object) 
             })
-            .then(data => data.text())
+            .then(data => data.text()) 
             .then(data => { 
                 console.log(data); 
                 showThanksModal(message.success);
@@ -259,10 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 showThanksModal(message.failure); 
             })
             .finally(() => {
-                form.reset();
+                form.reset(); 
             });
-
-  
         });
     }
 
@@ -290,6 +296,10 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal(); 
         }, 4000);
     }
+
+    fetch('http://localhost:3000/menu') 
+    .then(data => data.json()) 
+    .then(result => console.log(result));
 
 
 

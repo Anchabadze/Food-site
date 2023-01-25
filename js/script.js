@@ -297,9 +297,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
-    fetch('http://localhost:3000/menu') 
-    .then(data => data.json()) 
-    .then(result => console.log(result));
+    // Slider
+
+    const slides = document.querySelectorAll('.offer__slide'), // выбираем элементы с картинками слайдов
+        prev = document.querySelector('.offer__slider-prev'), // выбираем левую стрелку
+        next = document.querySelector('.offer__slider-next'); // выбираем правую стрелку
+
+    
+    
 
 
 

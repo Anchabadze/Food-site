@@ -302,9 +302,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.offer__slide'), // выбираем элементы с картинками слайдов
         prev = document.querySelector('.offer__slider-prev'), // выбираем левую стрелку
         next = document.querySelector('.offer__slider-next'); // выбираем правую стрелку
+    let slideIndex = 1;
 
-    
-    
+    showSlides(slideIndex); 
+
+    function showSlides(n) { 
+        if (n > slides.length) { 
+            slideIndex = 1;
+        }
+
+        if (n < 1) { 
+            slideIndex = slides.length; 
+        }
+
+        slides.forEach(item => item.style.display = 'none');
+
+        slides[slideIndex - 1].style.display = 'block';
+    }
+
+    function plusSlider(n) { 
+        showSlides(slideIndex += n); 
+    }
+
+    prev.addEventListener('click', () => { 
+        plusSlider(-1);
+    });
+
+    next.addEventListener('click', () => { 
+        plusSlider(1);
+    });
+
+
 
 
 

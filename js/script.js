@@ -301,10 +301,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const slides = document.querySelectorAll('.offer__slide'), // выбираем элементы с картинками слайдов
         prev = document.querySelector('.offer__slider-prev'), // выбираем левую стрелку
-        next = document.querySelector('.offer__slider-next'); // выбираем правую стрелку
+        next = document.querySelector('.offer__slider-next'), // выбираем правую стрелку
+        total = document.querySelector('#total'), // выбираем цифру общего кол-ва слайдов
+        current = document.querySelector('#current'); // выбираем цифру текущего слайда
     let slideIndex = 1;
 
     showSlides(slideIndex); 
+
+    if (slides.length < 10) { 
+        total.textContent = `0${slides.length}`; 
+    } else { 
+        total.textContent = slides.length; 
+    }
 
     function showSlides(n) { 
         if (n > slides.length) { 
@@ -318,6 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
         slides.forEach(item => item.style.display = 'none');
 
         slides[slideIndex - 1].style.display = 'block';
+
+        if (slides.length < 10) { 
+            current.textContent = `0${slideIndex}`; 
+        } else { 
+            current.textContent = slideIndex;
+        }
     }
 
     function plusSlider(n) { 

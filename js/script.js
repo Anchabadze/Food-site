@@ -376,13 +376,17 @@ document.addEventListener('DOMContentLoaded', () => {
         dots.append(dot); 
         massDots.push(dot);
     }
+    
+    function deleteNotDigits(str) {
+        return +str.replace(/\D/g, '');
+    }
 
 
     next.addEventListener('click', () => { 
-        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) { 
+        if (offset == deleteNotDigits(width) * (slides.length - 1)) { 
             offset = 0; 
         } else { 
-            offset += +width.slice(0, width.length - 2); 
+            offset += deleteNotDigits(width); 
         }
 
         slidesField.style.transform = `translateX(-${offset}px)`; 
@@ -407,9 +411,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     prev.addEventListener('click', () => {
         if (offset == 0) { 
-            offset = +width.slice(0, width.length - 2) * (slides.length - 1); 
+            offset = deleteNotDigits(width) * (slides.length - 1); 
         } else { 
-            offset -= +width.slice(0, width.length - 2); 
+            offset -= deleteNotDigits(width); 
         }
 
         slidesField.style.transform = `translateX(-${offset}px)`;
@@ -435,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 slideIndex = slideTo;
 
-                offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+                offset = deleteNotDigits(width) * (slideTo - 1);
 
                 slidesField.style.transform = `translateX(-${offset}px)`; 
 
@@ -493,7 +497,48 @@ document.addEventListener('DOMContentLoaded', () => {
     //     plusSlider(1);
     // });
 
+    // Calc
 
+    const result = document.querySelector('.calculating__result span');
+    let sex, height, weight, age, ratio;
+
+    function calcTotal() {
+        if (!sex || !height || !weight || !age || !ratio) { // если у нас нет значения пола, роста, веса ....
+            result.textContent = '_____'; // выводится в строке с результатом
+            return; // чтобы досрочно прервать функцию
+        } 
+
+        if (sex === 'female') { // если пол будет женский
+            result.textContent = (447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio;
+        } else { // в другом случае (если мужской)
+            result.textContent = 88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age) * ratio;
+        }
+    }
+
+    calcTotal(); // сразу вызываем функцию
+
+    function getStaticInformation(parentSelector, activeClass) { // создаём функцию по получения статичных данных со страницы с атрибутами (родительский элемент, класс активности)
+        const elements = document.querySelectorAll(`${parentSelector} div`); // получаем все элементы внутри родтельского элемента
+
+        document.querySelector(parentSelector).addEventListener('click', (e) => {
+            if (e.target.getAttribute('data-ratio')) { // если у объекта события есть атрибут data-ratio
+                ratio = +e.target.getAttribute('data-ratio')// мы устанавливаем переменную ratio в значение, которое есть у элемента в data
+            } else { // если у объекта события нет data атрибута (то есть есть индивид. индетификатор)
+                sex = e.target.getAttribute('id'); // значение sex становится равным id
+            }
+
+            console.log(ratio, sex);
+
+            elements.forEach(elem => { // перебираем все элементы внутри родительского класса
+                elem.classList.remove(activeClass); // убираем у всех элементов класс .activeClass
+            });
+    
+            e.target.classList.add(activeClass); // тому div, в который мы кликнули, назначаем класс активности
+        });
+    }
+
+    getStaticInformation('#gender', '.calculating__choose-item_active'); // вызываем функцию для пола
+    getStaticInformation('.calculating__choose_big', '.calculating__choose-item_active'); // вызываем функцию для физичекой активности
 
 
 
